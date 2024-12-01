@@ -99,3 +99,4 @@ void Guard::initialization()
 	std::cout << '!';
 	m_touch = false;
 }
+

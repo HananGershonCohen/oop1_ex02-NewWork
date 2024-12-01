@@ -13,6 +13,7 @@
 #include "Manger.h"
 #include <thread>
 #include <chrono>
+#include <cstdlib>
 using namespace std::chrono_literals;
 
 
@@ -34,6 +35,7 @@ void Manger::ran()
         board.print();
         ranFile(board);
 
+       // system("cls");
         counter++; // add the counter.
     }
 
@@ -55,7 +57,15 @@ void Manger::ranFile(Board& board)
     {
 
         robot.play(board);
-
+        if (robot.fishnetLevel())
+        {
+            m_score += 25;
+            board.printScoreAndLife(m_score, robot.getLife());
+            Screen::resetLocation();
+            std::this_thread::sleep_for(5000ms);
+            // std::cout << "your finished the level";
+            break;
+        }
         if (robot.dropBomb())
             m_bombs_location.push_back(Bomb(robot.get_location()));
         if (robot.touch())
@@ -73,7 +83,7 @@ void Manger::ranFile(Board& board)
                 restart(robot, board);
                 break;
             }
-            std::this_thread::sleep_for(500ms);
+            std::this_thread::sleep_for(50ms);
         }
 
     }

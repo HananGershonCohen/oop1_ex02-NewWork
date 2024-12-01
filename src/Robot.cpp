@@ -1,10 +1,10 @@
-#include "Robot.h"
+ï»¿#include "Robot.h"
 #include "io.h"
 #include "Board.h"
 #include <conio.h>
 Robot::Robot(Location& location)
-	:m_location {location}, m_first_location{location}, m_drop_bomb{false}
-	, m_touch{false}, m_life{5}
+	:m_location{ location }, m_first_location{ location }, m_drop_bomb{ false }
+	, m_touch{ false }, m_life{ 5 }, m_finshed{ false }
 {
 }
 
@@ -57,10 +57,10 @@ void Robot::play(Board& board)
 		newCol = m_location.col;
 
 		if (move == Keys::B)
-		 {
+		{
 			set_dropBomb(true);
 			endTurn = true;
-		 }
+		}
 
 		else if (move == Keys::SPECIAL_KEY)
 		{
@@ -77,26 +77,31 @@ void Robot::play(Board& board)
 
 			Location newLocation(newRow, newCol);
 			if (board.isInLevel(newLocation) && !board.isWall(newLocation)
-				                            && !board.isRock(newLocation))
+				&& !board.isRock(newLocation))
 			{
 				if (board.isGuard(newLocation))
 				{
 					m_touch = true;
 					break;
 				}
-				
+				if (board.isDoor(newLocation))
+				{
+					m_finshed = true;
+					endTurn = true;
+					break;
+				}
 				board.setLocation(m_location, newLocation, '/');
 				deleteOld_location(m_location);
 				setLocation(newLocation);
 				print(newLocation);
 				endTurn = true;
-				
+
 			}
-			else if(_getch() == (int)' ') // öøéê ùéàùø òì éãé ä÷ùä òì øååç
+			else if (_getch() == (int)' ') // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				endTurn = true;
-		
+
 		}
-		
+
 	}
 }
 
@@ -131,4 +136,3 @@ void Robot::initialization()
 	print(m_location);
 	m_touch = false;
 }
-
