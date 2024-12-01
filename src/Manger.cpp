@@ -20,10 +20,14 @@ using namespace std::chrono_literals;
 
 void Manger::ran()
 {
+    //= "level02.txt"
+    string fileName ;
 
-    string fileName;
+    for (int i = 1; i <= 3; i++)
+    {
+        fileName = std::string("level") + (i < 10 ? "0" : "") + std::to_string(i) + ".txt";
+    }
 
-    fileName = "level02.txt";
     Board board(fileName);
     board.print();
     Location robot_location = board.getRobotFirstLoc();
