@@ -6,10 +6,12 @@ Board::Board(const std::string& fileName) :m_fileName{ fileName }, m_robotLoc{0,
     auto file = ifstream(fileName);
     if (!file) {
         std::cerr << "Error: Cannot open file " << fileName << endl;
+        m_openFile = false;
         return;
     }
     else {
         cout << "The file are oepn." << endl << endl;
+        m_openFile = true;
     }
 
     string line;
@@ -69,6 +71,11 @@ void Board::printScoreAndLife(int score, int life) const
 {
     Screen::setLocation(Location(m_numRow + 3, 0));
     std::cout << "The score is:" << score << "  ,The life is:" << life;
+}
+
+bool Board::getIsFileOpen() const
+{
+    return m_openFile;
 }
 
 

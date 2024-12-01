@@ -24,8 +24,10 @@ public:
 	Location getRobotFirstLoc() const;
 	vector<Location> getVecGuardFirstLoc() const;
 	void printScoreAndLife(int score, int life)const;
+	bool getIsFileOpen() const;
 
 private:
+	bool m_openFile;// To indicate if the board was initialized successfully
 	string m_fileName;
 	vector<string> m_level;
 	vector<Location> m_guardLoc;
