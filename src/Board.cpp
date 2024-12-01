@@ -8,6 +8,9 @@ Board::Board(const std::string& fileName) :m_fileName{ fileName }, m_robotLoc{0,
         std::cerr << "Error: Cannot open file " << fileName << endl;
         return;
     }
+    else {
+        cout << "The file are oepn." << endl << endl;
+    }
 
     string line;
     while (getline(file, line)) // reading file.

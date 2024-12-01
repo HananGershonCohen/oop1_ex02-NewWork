@@ -20,8 +20,11 @@ using namespace std::chrono_literals;
 
 void Manger::ran()
 {
-    Board board("level01.txt");
 
+    string fileName;
+
+    fileName = "level02.txt";
+    Board board(fileName);
     board.print();
     Location robot_location = board.getRobotFirstLoc();
     Robot robot(robot_location);
