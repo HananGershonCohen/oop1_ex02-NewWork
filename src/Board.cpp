@@ -10,7 +10,6 @@ Board::Board(const std::string& fileName) :m_fileName{ fileName }, m_robotLoc{0,
         return;
     }
     else {
-        cout << "The file are oepn." << endl << endl;
         m_openFile = true;
     }
 

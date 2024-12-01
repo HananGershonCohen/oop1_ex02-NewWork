@@ -20,61 +20,63 @@ using namespace std::chrono_literals;
 
 void Manger::ran()
 {
-    //= "level02.txt"
-    
-    int i = 1;
+    int counter = 1;
     while (true) // A loop that opens all files.
     {
-        string fileName = std::string("level") + (i < 10 ? "0" : "") + std::to_string(i) + ".txt";
-        Board board(fileName);
+        string fileName = std::string("level") + (counter < 10 ? "0" : "") + std::to_string(counter) + ".txt";
 
+        Board board(fileName);
         if (!board.getIsFileOpen()) {
             std::cout << "No more levels to load. Exiting..." << std::endl;
             break; // Exit the loop if the file couldn't be opened
         }
 
-
         board.print();
-        Location robot_location = board.getRobotFirstLoc();
-        Robot robot(robot_location);
+        ranFile(board);
 
-
-        for (int i = 0; i < board.getVecGuardFirstLoc().size(); i++)
-        {
-            m_guardsMatrix.push_back(board.getVecGuardFirstLoc().at(i));
-        }
-
-
-
-        for (int i = 0; i < 1000; i++)
-        {
-
-            robot.play(board);
-
-            if (robot.dropBomb())
-                m_bombs_location.push_back(Bomb(robot.get_location()));
-            if (robot.touch())
-            {
-                restart(robot, board);
-                continue;
-            }
-            bombs(board, robot);
-
-            for (int i = 0; i < m_guardsMatrix.size(); i++)
-            {
-                m_guardsMatrix[i].move(board);
-                if (m_guardsMatrix.at(i).getTouch())
-                {
-                    restart(robot, board);
-                    break;
-                }
-                std::this_thread::sleep_for(50ms);
-            }
-
-        }
-        i++;
+        counter++; // add the counter.
     }
 
+}
+
+void Manger::ranFile(Board& board)
+{
+
+    Location robot_location = board.getRobotFirstLoc();
+    Robot robot(robot_location);
+
+
+    for (int i = 0; i < board.getVecGuardFirstLoc().size(); i++)
+    {
+        m_guardsMatrix.push_back(board.getVecGuardFirstLoc().at(i));
+    }
+
+    for (int i = 0; i < 1000; i++)
+    {
+
+        robot.play(board);
+
+        if (robot.dropBomb())
+            m_bombs_location.push_back(Bomb(robot.get_location()));
+        if (robot.touch())
+        {
+            restart(robot, board);
+            continue;
+        }
+        bombs(board, robot);
+
+        for (int i = 0; i < m_guardsMatrix.size(); i++)
+        {
+            m_guardsMatrix[i].move(board);
+            if (m_guardsMatrix.at(i).getTouch())
+            {
+                restart(robot, board);
+                break;
+            }
+            std::this_thread::sleep_for(500ms);
+        }
+
+    }
 }
 
 //-----------------------------------------------

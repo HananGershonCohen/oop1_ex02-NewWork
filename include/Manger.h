@@ -11,6 +11,7 @@ class Manger
 
 public:
     void ran();
+    void ranFile(Board& board);
     void restart(Robot& robot, Board &board);
    bool equal(const Location &loc1, const Location &loc2);//
    void bombs(Board &board, Robot &robot);
