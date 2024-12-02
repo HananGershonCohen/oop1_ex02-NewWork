@@ -52,6 +52,7 @@ void Robot::play(Board& board)
 
 	while (!endTurn)
 	{
+		
 		move = _getch();
 		newRow = m_location.row;
 		newCol = m_location.col;

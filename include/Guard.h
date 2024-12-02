@@ -14,7 +14,8 @@ public:
 	Location get_first_location();
 	bool getTouch();
 	void print(Location);
-	void move(Board&);
+    //void move(Board&);
+	void move(Board&, const Location&);
 	void initialization();
 	
 
@@ -22,7 +23,7 @@ private:
 	Location m_location;
 	Location m_first_location;
 	bool m_touch = false;
-	Location chooseNewLocation(Location);
+	//Location chooseNewLocation(Location);
 
 	
 };

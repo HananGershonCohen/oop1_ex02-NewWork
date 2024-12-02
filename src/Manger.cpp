@@ -77,7 +77,7 @@ void Manger::ranFile(Board& board)
 
         for (int i = 0; i < m_guardsMatrix.size(); i++)
         {
-            m_guardsMatrix[i].move(board);
+            m_guardsMatrix[i].move(board,robot.get_location());
             if (m_guardsMatrix.at(i).getTouch())
             {
                 restart(robot, board);
@@ -142,7 +142,6 @@ void Manger::restart(Robot& robot, Board& board)
     {
         board.setLocation(m_guardsMatrix.at(i).get_location(), m_guardsMatrix.at(i).get_first_location(), '!');
         m_guardsMatrix.at(i).initialization();
-
     }
 }
 //-----------------------------------------------
