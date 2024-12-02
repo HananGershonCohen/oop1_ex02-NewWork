@@ -47,36 +47,7 @@ void Guard::move(Board& board, const Location& robotLocation)
 		int bestDistance = abs(m_location.row - robotLocation.row) + abs(m_location.col - robotLocation.col);// Calculate the initial distance from the robot
 
 		// Check all possible movement directions
-		for (int direction = 0; direction < 4; ++direction)
-		{
-			Location potentialLoc = m_location;
-			switch (direction)
-			{
-			case 0: // up
-				potentialLoc.row--;
-				break;
-			case 1: // down
-				potentialLoc.row++;
-				break;
-			case 2: // left
-				potentialLoc.col--;
-				break;
-			case 3: // right
-				potentialLoc.col++;
-				break;
-			}
-
-			// Check if the potential location is valid
-			if (board.isInLevel(potentialLoc) && !board.isWall(potentialLoc) && !board.isRock(potentialLoc))
-			{
-				int distance = abs(potentialLoc.row - robotLocation.row) + abs(potentialLoc.col - robotLocation.col);
-				if (distance < bestDistance)
-				{
-					bestLoc = potentialLoc;
-					bestDistance = distance;
-				}
-			}
-		}
+		chooseNewLoc(board, robotLocation, bestDistance, bestLoc);
 
 		// If a valid move that reduces the distance is found
 		if (bestLoc.row != m_location.row || bestLoc.col != m_location.col)
@@ -99,6 +70,40 @@ void Guard::move(Board& board, const Location& robotLocation)
 	}
 }
 
+void Guard::chooseNewLoc(Board& board, const Location& robotLocation, int& bestDistance, Location& bestLoc)
+{
+	for (int direction = 0; direction < 4; ++direction)
+	{
+		Location potentialLoc = m_location;
+		switch (direction)
+		{
+		case 0: // up
+			potentialLoc.row--;
+			break;
+		case 1: // down
+			potentialLoc.row++;
+			break;
+		case 2: // left
+			potentialLoc.col--;
+			break;
+		case 3: // right
+			potentialLoc.col++;
+			break;
+		}
+
+		// Check if the potential location is valid
+		if (board.isInLevel(potentialLoc) && !board.isWall(potentialLoc) && !board.isRock(potentialLoc))
+		{
+			int distance = abs(potentialLoc.row - robotLocation.row) + abs(potentialLoc.col - robotLocation.col);
+			if (distance < bestDistance)
+			{
+				bestLoc = potentialLoc;
+				bestDistance = distance;
+			}
+		}
+	}
+}
+
 void Guard::initialization()
 {
 	Screen::setLocation(m_location);
@@ -108,60 +113,3 @@ void Guard::initialization()
 	std::cout << '!';
 	m_touch = false;
 }
-
-// OLD MOVE FUNCTION.
-
-/*
-void Guard::move(Board& board)
-{
-
-	bool moved = false;
-
-	while (!moved)
-	{
-		Location newLoc = chooseNewLocation(m_location);
-		if (board.isInLevel(newLoc) && !board.isWall(newLoc) && !board.isRock(newLoc))
-		{
-
-			moved = true;
-			print(newLoc);
-			if (board.isRobot(newLoc))
-			{
-				m_touch = true;
-				break;
-			}
-			board.setLocation(m_location, newLoc, '!');
-			set_location(newLoc); // update
-		}
-	}
-}
-
-
-Location Guard::chooseNewLocation(Location loc)
-{
-	Location newLoc = loc;
-
-	// random move.
-	int direction = rand() % 4; // 0 = �����, 1 = ����, 2 = �����, 3 = �����
-	//direction = 0;
-	switch (direction)
-	{
-	case 0: // move up.
-		newLoc.row--;
-		break;
-
-	case 1: // move down.
-		newLoc.row++;
-		break;
-
-	case 2: // move left.
-		newLoc.col--;
-		break;
-
-	case 3: // move right.
-		newLoc.col++;
-		break;
-	}
-	return newLoc;
-}
-*/
